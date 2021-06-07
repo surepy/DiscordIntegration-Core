@@ -4,6 +4,7 @@ import de.erdbeerbaerlp.dcintegration.common.storage.Configuration;
 import de.erdbeerbaerlp.dcintegration.common.storage.PlayerLinkController;
 import de.erdbeerbaerlp.dcintegration.common.util.MessageUtils;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -31,7 +32,7 @@ public class UnlinkCommand extends DMCommand {
 
     @Override
     public void execute(String[] args, MessageReceivedEvent ev) {
-        TextChannel channel = ev.getChannel();
+        MessageChannel channel = ev.getChannel();
         User author = ev.getAuthor();
         Configuration config = Configuration.instance();
         Configuration.Localization.Linking localization = config.localization.linking;
