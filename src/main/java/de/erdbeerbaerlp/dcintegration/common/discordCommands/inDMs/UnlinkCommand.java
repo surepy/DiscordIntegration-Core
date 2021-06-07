@@ -31,7 +31,7 @@ public class UnlinkCommand extends DMCommand {
 
     @Override
     public void execute(String[] args, MessageReceivedEvent ev) {
-        TextChannel channel = ev.getTextChannel();
+        TextChannel channel = ev.getChannel();
         User author = ev.getAuthor();
         Configuration config = Configuration.instance();
         Configuration.Localization.Linking localization = config.localization.linking;
