@@ -38,6 +38,7 @@ public class CommandRegistry {
         if (Configuration.instance().linking.enableLinking) {
             registerCommand(new DMHelpCommand());
             registerCommand(new SettingsCommand());
+            registerCommand(new UnlinkCommand());
             if (Configuration.instance().linking.whitelistMode)
                 registerCommand(new WhitelistCommand());
             else
