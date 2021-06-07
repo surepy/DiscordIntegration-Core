@@ -333,6 +333,9 @@ public class Configuration {
             @TomlComment({"Sent to the user when linking fails"})
             public String linkFailed = "Account link failed";
 
+            @TomlComment({"Sent to the user when account unlinks"})
+            public String unlinkSuccessful = "Your account is now unlinked.";
+
             @TomlComment({"Sent when an already linked user attempts to link an account", "PLACEHOLDERS:", "%player% - The in-game player name"})
             public String alreadyLinked = "Your account is already linked with %player%";
 
@@ -356,6 +359,9 @@ public class Configuration {
 
             @TomlComment({"Message shown to players who are not whitelisted using discord", "No effect if discord whitelist is off"})
             public String notWhitelisted = "\u00a7cYou are not whitelisted.\nJoin the discord server for more information\nhttps://discord.gg/someserver";
+
+            @TomlComment({"Kick Player on unlink"})
+            public String unlinked = "Your Account has been unlinked.";
 
             @TomlComment("Sent when trying to link without an required role")
             public String link_requiredRole = "You need to have an role to use this";
@@ -428,6 +434,7 @@ public class Configuration {
                 public String help = "Displays a list of all commands";
                 public String list = "Lists all players currently online";
                 public String link = "Links your Discord account with your Minecraft account";
+                public String unlink = "Unlinks a Discord account with a Minecraft account";
                 public String whitelist = "Whitelists you on the server by linking with Discord";
             }
         }
@@ -489,6 +496,12 @@ public class Configuration {
 
         @TomlComment({"Enable discord based whitelist?", "This will override the link config!", "To whitelist use the whitelist command in the bot DMs"})
         public boolean whitelistMode = false;
+
+        @TomlComment({"Does it require you to have admin permissions to unlink?"})
+        public boolean unlinkRequiresAdmin = false;
+
+        @TomlComment({"Unlink and Ban user on Minecraft if banned from Discord server"})
+        public boolean linkBans = false;
 
         @TomlComment("Adding Role IDs here will require the players to have at least ONE of these roles to link account")
         public String[] requiredRoles = new String[0];

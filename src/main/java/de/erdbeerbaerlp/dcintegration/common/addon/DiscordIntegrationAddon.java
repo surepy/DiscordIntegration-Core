@@ -17,6 +17,7 @@ public interface DiscordIntegrationAddon {
     default void reload(){
 
     }
+
     /**
      * Gets called before unloading an Addon
      *

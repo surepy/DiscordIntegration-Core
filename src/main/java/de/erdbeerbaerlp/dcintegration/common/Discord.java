@@ -522,8 +522,8 @@ public class Discord extends Thread {
      */
     public boolean restart() {
         try {
-            kill();
             if (Variables.discord_instance.isAlive()) Variables.discord_instance.interrupt();
+            kill();
             Variables.discord_instance = new Discord(srv);
             CommandRegistry.reRegisterAllCommands();
             CommandRegistry.registerConfigCommands();

@@ -21,7 +21,9 @@ import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.GenericEvent;
+import net.dv8tion.jda.api.events.guild.GuildBanEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.hooks.EventListener;
 import net.kyori.adventure.text.Component;
@@ -38,6 +40,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static de.erdbeerbaerlp.dcintegration.common.util.Variables.discord_instance;
 
 
 public class DiscordEventListener implements EventListener {
@@ -63,6 +67,7 @@ public class DiscordEventListener implements EventListener {
         final Discord dc = Variables.discord_instance;
         final JDA jda = dc.getJDA();
         if (jda == null) return;
+        // message reactions
         if (event instanceof MessageReactionAddEvent) {
             final MessageReactionAddEvent ev = (MessageReactionAddEvent) event;
             final UUID sender = dc.getSenderUUIDFromMessageID(ev.getMessageId());
@@ -72,6 +77,7 @@ public class DiscordEventListener implements EventListener {
                         dc.srv.sendMCReaction(ev.getMember(), ev.retrieveMessage(), sender, ev.getReactionEmote());
                 }
         }
+        // message received
         if (event instanceof MessageReceivedEvent) {
             final MessageReceivedEvent ev = (MessageReceivedEvent) event;
 
@@ -228,6 +234,27 @@ public class DiscordEventListener implements EventListener {
                     }
                 }
             }
+        }
+        // user banned, also ban the user too.
+        if (event instanceof GuildBanEvent) {
+            // ban linking disabled.
+            if (!Configuration.instance().linking.linkBans) {
+                return;
+            }
+
+            final GuildBanEvent ev = (GuildBanEvent) event;
+            UUID author_uuid = PlayerLinkController.getPlayerFromDiscord(ev.getUser().getId());
+
+            // user is not linked
+            if (author_uuid == null) {
+                return;
+            }
+
+            // TODO ban the user also, i can't do it now because runMcCommand requires MessageReceivedEvent
+            // discord_instance.srv.runMcCommand("ban " + author_uuid , <missing>);
+
+            // unlink the user
+            PlayerLinkController.unlinkPlayer(ev.getUser().getId(), author_uuid);
         }
     }
 }
