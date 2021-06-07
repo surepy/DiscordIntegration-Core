@@ -39,7 +39,7 @@ public class UnlinkCommand extends DMCommand {
         String prefix = config.commands.prefix;
 
         // user is not linked to a Minecraft account.
-        if (!PlayerLinkController.isDiscordLinked(ev.getAuthor().getId())) {
+        if (!PlayerLinkController.isDiscordLinked(author.getId())) {
             String link_method = localization.linkMethodIngame;
 
             if (config.linking.whitelistMode)
